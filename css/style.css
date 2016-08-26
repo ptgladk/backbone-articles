@@ -1,0 +1,50 @@
+.article-block {
+    margin: 20px 0;
+    border: 1px solid #eee;
+    border-radius: 5px;
+}
+
+.article-block .article-title
+{
+    height: 50px;
+    overflow: hidden;
+}
+
+.article-block .article-title .title
+{
+    margin: 7px 10px;
+    overflow: hidden;
+    font-weight: bold;
+}
+
+.article-block .article-description {
+    height: 234px;
+    overflow: hidden;
+}
+
+.article-block .article-description .description
+{
+    padding: 10px;
+}
+
+.article-block .article-controls
+{
+    border-top: 1px solid #eee;
+    height: 60px;
+}
+
+.article-block .favorite {
+    font-size: 24px;
+    color: #8a6d3b;
+    line-height: 1;
+    float: right;
+    margin: 10px;
+    height: 40px;
+}
+
+.article-block .count {
+    float: left;
+    margin: 20px 10px;
+    font-size: 20px;
+    line-height: 1;
+}

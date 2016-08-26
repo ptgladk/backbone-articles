@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Backbone articles</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+    <nav id="nav" class="navbar navbar-default navbar-static-top"></nav>
+    <div id="container" class="container"></div>
+
+    <script type="text/template" id="nav-template">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand home-link" href="/">Backbone articles</a>
+            </div>
+            <div id="navbar home-link" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="/" class="home-link">Home</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/login" class="login-link">Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/template" id="index-template">
+        <div class="row">
+            <% _.each(articles, function(article) { %>
+                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                    <div class="article-block">
+                        <div class="article-title bg-success">
+                            <p class="title">
+                                <a href="/article/<%= article.get('id') %>" class="article-link">
+                                    <%= article.get('title') %>
+                                </a>
+                            </p>
+                        </div>
+                        <div class="article-description">
+                            <p class="description"><%= article.get('description') %></p>
+                        </div>
+                        <div class="article-controls">
+                            <div class="count">0</div>
+                            <button type="button" class="btn btn-default favorite">
+                                <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    </script>
+
+    <script type="text/template" id="login-template">
+        <div class="row">
+            <form>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" class="form-control" placeholder="Username" />
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" class="form-control" placeholder="Password" />
+                </div>
+                <button type="button" class="btn btn-default login">Login</button>
+            </form>
+        </div>
+    </script>
+
+    <script type="text/template" id="article-template">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h1><%= title %></h1>
+                <blockquote><p><%= description %></p></blockquote>
+                <%= content %>
+            </div>
+        </div>
+    </script>
+
+    <script data-main="app/main" src="app/vendor/require.js"></script>
+</body>
+</html>
