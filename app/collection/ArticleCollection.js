@@ -1,4 +1,4 @@
-define(['backbone', 'ArticleModel'],  function(Backbone, ArticleModel) {
+define(['backbone'],  function(Backbone) {
     return Backbone.Collection.extend({
         url: 'http://localhost:8000/api/article',
 

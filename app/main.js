@@ -7,6 +7,7 @@ require.config({
         jsCookie: 'vendor/js.cookie',
 
         ArticleModel: 'model/ArticleModel',
+        UserModel: 'model/UserModel',
         ArticleCollection: 'collection/ArticleCollection',
         MenuView: 'view/MenuView',
         IndexView: 'view/IndexView',

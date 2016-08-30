@@ -1,4 +1,4 @@
-define(['jquery', 'underscore', 'backbone', 'jsCookie'],  function($, _, Backbone, jsCookie) {
+define(['jquery', 'underscore', 'backbone', 'jsCookie', 'UserModel'],  function($, _, Backbone, jsCookie, UserModel) {
     return Backbone.View.extend({
         template: _.template($('#login-template').html()),
         events: {
@@ -15,6 +15,7 @@ define(['jquery', 'underscore', 'backbone', 'jsCookie'],  function($, _, Backbon
         },
 
         login: function() {
+            var self = this;
             $.ajax({
                 url: 'http://localhost:8000/auth',
                 type: 'POST',
@@ -25,6 +26,10 @@ define(['jquery', 'underscore', 'backbone', 'jsCookie'],  function($, _, Backbon
                 }
             }).done(function(data) {
                 jsCookie.set('user', {
+                    username: data.username,
+                    token: data.token
+                });
+                self.model.set({
                     username: data.username,
                     token: data.token
                 });
