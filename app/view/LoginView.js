@@ -1,11 +1,11 @@
-define(['jquery', 'underscore', 'backbone', 'jsCookie', 'UserModel'],  function($, _, Backbone, jsCookie, UserModel) {
+define(['jquery', 'underscore', 'backbone', 'jsCookie'],  function($, _, Backbone, jsCookie) {
     return Backbone.View.extend({
         template: _.template($('#login-template').html()),
         events: {
             'click .login': 'login'
         },
 
-        initialize: function () {
+        initialize: function() {
             this.render();
         },
 

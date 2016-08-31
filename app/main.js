@@ -13,6 +13,9 @@ require.config({
         IndexView: 'view/IndexView',
         LoginView: 'view/LoginView',
         ArticleView: 'view/ArticleView',
+        ManageView: 'view/ManageView',
+        ManageSaveView: 'view/ManageSaveView',
+        ManageDeleteView: 'view/ManageDeleteView',
         DefaultRouter: 'router/DefaultRouter'
     },
     shim: {

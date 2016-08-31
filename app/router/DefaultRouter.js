@@ -1,5 +1,7 @@
-define(['backbone', 'jsCookie', 'MenuView', 'IndexView', 'LoginView', 'ArticleModel', 'ArticleView'],
-    function(Backbone, jsCookie, MenuView, IndexView, LoginView, ArticleModel, ArticleView) {
+define(['backbone', 'jsCookie', 'MenuView', 'IndexView', 'LoginView', 'ArticleModel', 'ArticleView', 'ManageView',
+        'ManageSaveView', 'ManageDeleteView'],
+    function(Backbone, jsCookie, MenuView, IndexView, LoginView, ArticleModel, ArticleView, ManageView,
+             ManageSaveView, ManageDeleteView) {
         return Backbone.Router.extend({
             user: '',
             nav: '#nav',
@@ -8,7 +10,11 @@ define(['backbone', 'jsCookie', 'MenuView', 'IndexView', 'LoginView', 'ArticleMo
                 '': 'index',
                 'login': 'login',
                 'logout': 'logout',
-                'article/:id': 'article'
+                'article/:id': 'article',
+                'manage/edit/:id': 'manageEdit',
+                'manage/delete/:id': 'manageDelete',
+                'manage/new': 'manageNew',
+                'manage': 'manage'
             },
             views: {
                 menu: '',
@@ -18,8 +24,7 @@ define(['backbone', 'jsCookie', 'MenuView', 'IndexView', 'LoginView', 'ArticleMo
             },
 
             initialize: function(user) {
-                this.user = user;
-                this.getUser();
+                this.user = this.getUser(user);
                 this.views.menu = new MenuView({
                     el: this.nav,
                     model: this.user
@@ -38,6 +43,9 @@ define(['backbone', 'jsCookie', 'MenuView', 'IndexView', 'LoginView', 'ArticleMo
             },
 
             logout: function() {
+                if (!this.checkAuth()) {
+                    return;
+                }
                 this.views.menu.logout();
             },
 
@@ -49,14 +57,80 @@ define(['backbone', 'jsCookie', 'MenuView', 'IndexView', 'LoginView', 'ArticleMo
                 });
             },
 
-            getUser: function() {
+            manage: function() {
+                if (!this.checkAuth()) {
+                    return;
+                }
+                new ManageView({
+                    el: this.container,
+                    attributes: { username: this.user.get('username') }
+                });
+            },
+
+            manageNew: function() {
+                if (!this.checkAuth()) {
+                    return;
+                }
+                var article = new ArticleModel();
+                new ManageSaveView({
+                    el: this.container,
+                    model: article,
+                    attributes: { token: this.user.get('token') }
+                });
+            },
+
+            manageEdit: function(id) {
+                if (!this.checkAuth()) {
+                    return;
+                }
+                var article = new ArticleModel({ id: id });
+                var self = this;
+                article.fetch({
+                    success: function() {
+                        new ManageSaveView({
+                            el: this.container,
+                            model: article,
+                            attributes: { token: self.user.get('token') }
+                        });
+                    }
+                });
+            },
+
+            manageDelete: function(id) {
+                if (!this.checkAuth()) {
+                    return;
+                }
+                var article = new ArticleModel({ id: id });
+                var self = this;
+                article.fetch({
+                    success: function() {
+                        new ManageDeleteView({
+                            el: this.container,
+                            model: article,
+                            attributes: { token: self.user.get('token') }
+                        });
+                    }
+                });
+            },
+
+            getUser: function(user) {
                 var userData = jsCookie.getJSON('user');
                 if (userData) {
-                    this.user.set({
+                    return user.set({
                         username: userData.username,
                         token: userData.token
                     });
                 }
+                return user;
+            },
+
+            checkAuth: function() {
+                this.user = this.getUser(this.user);
+                if (!this.user.get('username')) {
+                    Backbone.history.navigate('/login', { trigger: true });
+                    return false;
+                }
+                return true;
             }
         });
     }

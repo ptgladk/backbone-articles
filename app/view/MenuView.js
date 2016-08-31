@@ -4,10 +4,11 @@ define(['jquery', 'underscore', 'backbone', 'jsCookie'],  function($, _, Backbon
         events: {
             'click .home-link': 'homePage',
             'click .login-link': 'loginPage',
-            'click .logout-link': 'logoutLink'
+            'click .logout-link': 'logoutLink',
+            'click .manage-link': 'managePage'
         },
 
-        initialize: function () {
+        initialize: function() {
             this.listenTo(this.model, 'all', this.render);
             this.render();
         },
@@ -40,5 +41,10 @@ define(['jquery', 'underscore', 'backbone', 'jsCookie'],  function($, _, Backbon
             });
             Backbone.history.navigate('/', { trigger: true });
         },
+
+        managePage: function(event) {
+            event.preventDefault();
+            Backbone.history.navigate(this.$('.manage-link').attr('href'), { trigger: true });
+        }
     });
 });
