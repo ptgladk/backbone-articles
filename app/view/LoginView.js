@@ -1,12 +1,9 @@
-define(['jquery', 'underscore', 'backbone', 'jsCookie'],  function($, _, Backbone, jsCookie) {
+define(['jquery', 'underscore', 'backbone', 'jsCookie', 'ErrorView'],  function($, _, Backbone, jsCookie, ErrorView) {
     return Backbone.View.extend({
+        error: new ErrorView({ el: '#container' }),
         template: _.template($('#login-template').html()),
         events: {
             'click .login': 'login'
-        },
-
-        initialize: function() {
-            this.render();
         },
 
         render: function() {
@@ -15,6 +12,7 @@ define(['jquery', 'underscore', 'backbone', 'jsCookie'],  function($, _, Backbon
         },
 
         login: function() {
+            this.error.remove();
             var self = this;
             $.ajax({
                 url: 'http://localhost:8000/auth',
@@ -34,6 +32,10 @@ define(['jquery', 'underscore', 'backbone', 'jsCookie'],  function($, _, Backbon
                     token: data.token
                 });
                 Backbone.history.navigate('/', { trigger: true });
+            }).fail(function(data) {
+                var error = JSON.parse(data.responseText);
+                self.error.attributes = { error: error.message };
+                self.error.render();
             });
         }
     });

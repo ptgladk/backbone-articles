@@ -7,10 +7,6 @@ define(['jquery', 'underscore', 'backbone', 'ArticleCollection'],  function($, _
             'click .delete-link': 'deletePage'
         },
 
-        initialize: function() {
-            this.render();
-        },
-
         render: function() {
             var self = this;
             var articles = new ArticleCollection();

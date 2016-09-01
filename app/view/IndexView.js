@@ -5,10 +5,6 @@ define(['jquery', 'underscore', 'backbone', 'ArticleCollection'],  function($, _
             'click .article-link': 'articlePage'
         },
 
-        initialize: function () {
-            this.render();
-        },
-
         render: function() {
             var self = this;
             var articles = new ArticleCollection();

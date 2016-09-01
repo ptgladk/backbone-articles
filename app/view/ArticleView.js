@@ -5,10 +5,6 @@ define(['jquery', 'underscore', 'backbone'],  function($, _, Backbone) {
             'click .login': 'login'
         },
 
-        initialize: function () {
-            this.render();
-        },
-
         render: function() {
             var self = this;
             this.model.fetch({

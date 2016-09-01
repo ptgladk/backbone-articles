@@ -17,10 +17,7 @@ define(['backbone', 'jsCookie', 'MenuView', 'IndexView', 'LoginView', 'ArticleMo
                 'manage': 'manage'
             },
             views: {
-                menu: '',
-                index: '',
-                login: '',
-                article: ''
+                menu: ''
             },
 
             initialize: function(user) {
@@ -32,14 +29,20 @@ define(['backbone', 'jsCookie', 'MenuView', 'IndexView', 'LoginView', 'ArticleMo
             },
 
             index: function() {
-                this.views.index = new IndexView({ el: this.container });
+                if (!this.views.index) {
+                    this.views.index = new IndexView({ el: this.container });
+                }
+                this.views.index.render();
             },
 
             login: function() {
-                this.views.login = new LoginView({
-                    el: this.container,
-                    model: this.user
-                });
+                if (!this.views.login) {
+                    this.views.login = new LoginView({
+                        el: this.container,
+                        model: this.user
+                    });
+                }
+                this.views.login.render();
             },
 
             logout: function() {
@@ -51,20 +54,24 @@ define(['backbone', 'jsCookie', 'MenuView', 'IndexView', 'LoginView', 'ArticleMo
 
             article: function(id) {
                 var article = new ArticleModel({ id: id });
-                this.views.article = new ArticleView({
-                    el: this.container,
-                    model: article
-                });
+                if (!this.views.article) {
+                    this.views.article = new ArticleView({
+                        el: this.container
+                    });
+                }
+                this.views.article.model = article;
+                this.views.article.render();
             },
 
             manage: function() {
                 if (!this.checkAuth()) {
                     return;
                 }
-                new ManageView({
-                    el: this.container,
-                    attributes: { username: this.user.get('username') }
-                });
+                if (!this.views.manage) {
+                    this.views.manage = new ManageView({ el: this.container });
+                }
+                this.views.manage.attributes = { username: this.user.get('username') };
+                this.views.manage.render();
             },
 
             manageNew: function() {
@@ -72,11 +79,12 @@ define(['backbone', 'jsCookie', 'MenuView', 'IndexView', 'LoginView', 'ArticleMo
                     return;
                 }
                 var article = new ArticleModel();
-                new ManageSaveView({
-                    el: this.container,
-                    model: article,
-                    attributes: { token: this.user.get('token') }
-                });
+                if (!this.views.manageSave) {
+                    this.views.manageSave = new ManageSaveView({ el: this.container });
+                }
+                this.views.manageSave.model = article;
+                this.views.manageSave.attributes = { token: this.user.get('token') };
+                this.views.manageSave.render();
             },
 
             manageEdit: function(id) {
@@ -87,11 +95,12 @@ define(['backbone', 'jsCookie', 'MenuView', 'IndexView', 'LoginView', 'ArticleMo
                 var self = this;
                 article.fetch({
                     success: function() {
-                        new ManageSaveView({
-                            el: this.container,
-                            model: article,
-                            attributes: { token: self.user.get('token') }
-                        });
+                        if (!self.views.manageSave) {
+                            self.views.manageSave = new ManageSaveView({ el: self.container });
+                        }
+                        self.views.manageSave.model = article;
+                        self.views.manageSave.attributes = { token: self.user.get('token') };
+                        self.views.manageSave.render();
                     }
                 });
             },
@@ -104,11 +113,12 @@ define(['backbone', 'jsCookie', 'MenuView', 'IndexView', 'LoginView', 'ArticleMo
                 var self = this;
                 article.fetch({
                     success: function() {
-                        new ManageDeleteView({
-                            el: this.container,
-                            model: article,
-                            attributes: { token: self.user.get('token') }
-                        });
+                        if (!self.views.manageDelete) {
+                            self.views.manageDelete = new ManageDeleteView({ el: self.container });
+                        }
+                        self.views.manageDelete.model = article;
+                        self.views.manageDelete.attributes = { token: self.user.get('token') };
+                        self.views.manageDelete.render();
                     }
                 });
             },

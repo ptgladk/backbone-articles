@@ -1,12 +1,9 @@
-define(['jquery', 'underscore', 'backbone'],  function($, _, Backbone) {
+define(['jquery', 'underscore', 'backbone', 'ErrorView'],  function($, _, Backbone, ErrorView) {
     return Backbone.View.extend({
+        error: new ErrorView({ el: '#container' }),
         template: _.template($('#manage-save-template').html()),
         events: {
             'click .save': 'save'
-        },
-
-        initialize: function() {
-            this.render();
         },
 
         render: function() {
@@ -15,6 +12,7 @@ define(['jquery', 'underscore', 'backbone'],  function($, _, Backbone) {
         },
 
         save: function() {
+            this.error.remove();
             this.model.set({
                 title: this.$('#title').val(),
                 description: this.$('#description').val(),
@@ -29,7 +27,8 @@ define(['jquery', 'underscore', 'backbone'],  function($, _, Backbone) {
                     }
                 });
             } else {
-                console.log(this.model.validationError);
+                this.error.attributes = { error: this.model.validationError };
+                this.error.render();
             }
         }
     });

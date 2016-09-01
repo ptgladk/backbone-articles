@@ -6,10 +6,6 @@ define(['jquery', 'underscore', 'backbone'],  function($, _, Backbone) {
             'click .cancel': 'cancel'
         },
 
-        initialize: function() {
-            this.render();
-        },
-
         render: function() {
             var temp = this.template(this.model.toJSON());
             this.$el.html(temp);

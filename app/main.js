@@ -16,6 +16,7 @@ require.config({
         ManageView: 'view/ManageView',
         ManageSaveView: 'view/ManageSaveView',
         ManageDeleteView: 'view/ManageDeleteView',
+        ErrorView: 'view/ErrorView',
         DefaultRouter: 'router/DefaultRouter'
     },
     shim: {
