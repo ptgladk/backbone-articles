@@ -32,6 +32,7 @@ define(['backbone', 'jsCookie', 'MenuView', 'IndexView', 'LoginView', 'ArticleMo
                 if (!this.views.index) {
                     this.views.index = new IndexView({ el: this.container });
                 }
+                this.views.index.attributes = { token: this.user.get('token') };
                 this.views.index.render();
             },
 
@@ -55,9 +56,7 @@ define(['backbone', 'jsCookie', 'MenuView', 'IndexView', 'LoginView', 'ArticleMo
             article: function(id) {
                 var article = new ArticleModel({ id: id });
                 if (!this.views.article) {
-                    this.views.article = new ArticleView({
-                        el: this.container
-                    });
+                    this.views.article = new ArticleView({ el: this.container });
                 }
                 this.views.article.model = article;
                 this.views.article.render();

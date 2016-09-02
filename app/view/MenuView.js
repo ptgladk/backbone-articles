@@ -30,7 +30,7 @@ define(['jquery', 'underscore', 'backbone', 'jsCookie'],  function($, _, Backbon
 
         logoutLink: function(event) {
             event.preventDefault();
-            this.logout();
+            Backbone.history.navigate(this.$('.logout-link').attr('href'), { trigger: true });
         },
 
         logout: function() {

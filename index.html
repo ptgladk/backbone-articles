@@ -59,10 +59,15 @@
                         <div class="article-description">
                             <p class="description"><%= article.get('description') %></p>
                         </div>
+
                         <div class="article-controls">
-                            <div class="count">0</div>
-                            <button type="button" class="btn btn-default favorite">
-                                <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                            <div class="count"><%= article.get('countInFavorites') %></div>
+                            <button type="button" class="btn btn-default favorite " data-id="<%= article.get('id') %>">
+                                <% if (article.get('isFavorite')) { %>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                <% } else { %>
+                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                <% } %>
                             </button>
                         </div>
                     </div>
